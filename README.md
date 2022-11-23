@@ -3,13 +3,10 @@
 
 ## 1. Requerimientos
 
----
-
 * Python 3.11.0
 
 ## 2. Como ejecutar el proyecto
 
----
 
 Ejecutar el siguiente comando en donde se haya descargado el proyecto.
 ```
@@ -18,7 +15,6 @@ $ py main.py
 
 ## 3. Funcionalidades
 
----
 
 - [ ] 3.1. DFS
 - [ ] 3.2. BFS
