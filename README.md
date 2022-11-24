@@ -5,6 +5,14 @@
 
 * Python 3.11.0
 
+### 1.1 Dependencias
+
+Instalar las siguientes dependencias con pip:
+
+```
+pip install xmltodict
+```
+
 ## 2. Como ejecutar el proyecto
 
 
