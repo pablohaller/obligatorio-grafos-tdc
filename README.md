@@ -1,5 +1,5 @@
 ## Proyecto TeoComp 2022 - Grafos
-### Nahuel Bueno, José Curti, Pablo Haller
+### Enzo Bueno, José Curti, Pablo Haller
 
 ## 1. Requerimientos
 
