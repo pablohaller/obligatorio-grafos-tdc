@@ -1,5 +1,5 @@
 class Path:
-    def __init__(self, source, target, weight):
+    def __init__(self, source="0", target="0", weight="0"):
         self.source = source
         self.target = target
         self.weight = weight
