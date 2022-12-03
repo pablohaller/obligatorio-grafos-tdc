@@ -7,13 +7,18 @@ def NodeInGraph(graph, node):
 
 
 def BreadthFirstSearch(graph, startingNode):
-    """Dado un grafo (graph), y un nodo de entrada (startingNode)
-
-    Retorna una lista con el recorrido realizado por la búsqueda en amplitud
-    partiendo de dicho nodo para el grafo.
-
-    Si el nodo no existe, retorna una lista vacía
     """
+    Dado un nodo como entrada, devuelve el recorrido realizado por la búsqueda en amplitud partiendo de dicho nodo.
+
+    Si el nodo no existe, retorna una lista vacía.
+
+    Hay casos borde donde el generador de grafos crea edges inexistentes y hay que revisar bien el archivo.
+
+    :param graph: graph
+    :param startingNode: string
+    :return: list
+    """
+
     bfsPath = []
     visitingQueue = queue.Queue()
 
@@ -22,9 +27,6 @@ def BreadthFirstSearch(graph, startingNode):
 
     bfsPath.append(startingNode)
     visitingQueue.put(startingNode)
-    print("-------------------\n\n")
-    print(graph.name)
-    print(visitingQueue.queue)
 
     while visitingQueue.qsize() != 0:
         currentSource = visitingQueue.get()
@@ -43,8 +45,44 @@ def BreadthFirstSearch(graph, startingNode):
                 if auxPath.target not in bfsPath:
                     bfsPath.append(auxPath.target)
 
-        print(visitingQueue.queue)
-        print(bfsPath)
-
     return bfsPath
 
+
+def DepthFirstSearch(graph, startingNode):
+    """
+    Dado un nodo como entrada, devuelve el recorrido realizado por la búsqueda en profundidad partiendo de dicho nodo.
+
+    Si el nodo no existe, devuelve una lista vacía.
+
+    :param graph: graph
+    :param startingNode: startingNode
+    :return: list
+    """
+
+    dfsPath = []
+    stack = []
+
+    if not NodeInGraph(graph, startingNode):
+        return dfsPath
+
+    stack.append(startingNode)
+
+    while len(stack) != 0:
+        currentSource = stack.pop()
+        stopSearching = False
+
+        for path in graph.path:
+            if stopSearching:
+                break
+
+            auxPath = Path.Path(path.target, path.source, path.weight) if path.target == currentSource else path
+
+            if auxPath.source == currentSource and auxPath.target not in dfsPath:
+                stack.append(currentSource)
+                stack.append(auxPath.target)
+                stopSearching = False
+
+        if currentSource not in dfsPath:
+            dfsPath.append(currentSource)
+
+    return dfsPath
