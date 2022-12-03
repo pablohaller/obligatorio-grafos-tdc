@@ -7,5 +7,7 @@ availableGraphs = AvailableGraphs.AvailableGraphs(Utils.GetGraphs())
 
 for graph in availableGraphs.graphs:
     print(graph)
-    print("BFS(1)", GraphAlgorithms.BreadthFirstSearch(graph, "0"))
+    print("BFS(0)", GraphAlgorithms.BreadthFirstSearch(graph, "0"))
+    print("DFS(0)", GraphAlgorithms.DepthFirstSearch(graph, "0"))
+    print("-------------------------")
 
