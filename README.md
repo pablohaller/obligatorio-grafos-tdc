@@ -24,7 +24,7 @@ $ py main.py
 ## 3. Funcionalidades
 
 
-- [ ] 3.1. DFS
+- [x] 3.1. DFS
 - [x] 3.2. BFS
 - [ ] 3.3. Componentes Conexas
 - [ ] 3.4. Cantidad de Componentes Conexas
