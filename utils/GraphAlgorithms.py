@@ -86,3 +86,24 @@ def DepthFirstSearch(graph, startingNode):
             dfsPath.append(currentSource)
 
     return dfsPath
+
+
+def GetConnectedComponents(graph):
+    """
+    Dado un grafo, devolver una lista de nodos.
+
+    Cada sub lista representa una componente conexa del grafo.
+
+    :param graph: graph
+    :return: list
+    """
+    connectedComponents = []
+    visited = []
+
+    for path in graph.path:
+        if path.source not in visited:
+            bfsPath = BreadthFirstSearch(graph, path.source)
+            connectedComponents.append(bfsPath)
+            visited = [*visited, *bfsPath]
+
+    return connectedComponents
