@@ -9,5 +9,6 @@ for graph in availableGraphs.graphs:
     print(graph)
     print("BFS(0)", GraphAlgorithms.BreadthFirstSearch(graph, "0"))
     print("DFS(0)", GraphAlgorithms.DepthFirstSearch(graph, "0"))
+    print("Connected Components", GraphAlgorithms.GetConnectedComponents(graph))
     print("-------------------------")
 
