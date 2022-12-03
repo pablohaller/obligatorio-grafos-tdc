@@ -26,7 +26,7 @@ $ py main.py
 
 - [x] 3.1. DFS
 - [x] 3.2. BFS
-- [ ] 3.3. Componentes Conexas
+- [x] 3.3. Componentes Conexas
 - [ ] 3.4. Cantidad de Componentes Conexas
 - [ ] 3.5. Es Conexo
 - [ ] 3.6. Camino más corto entre dos nodos
