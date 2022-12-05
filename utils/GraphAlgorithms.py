@@ -180,15 +180,18 @@ def GetOrderedAdjacenciesList(graph):
 
 def BFSShortestPath(adjacencyList, startingNode, destinationNode):
     """
-        Variante de BFS para obtener listas el amino más corto.
+        Variante de BFS para obtener listas el camino más corto.
 
         :param adjacencyList: list
         :param startingNode: string
         :param destinationNode: string
         :return: list
+ 
+ material de referencia:
 
         https://www.baeldung.com/cs/graph-number-of-shortest-paths
         https://www.geeksforgeeks.org/print-all-shortest-paths-between-given-source-and-destination-in-an-undirected-graph/
+
     """
 
     distances = defaultdict(lambda: float('inf'))
@@ -220,7 +223,7 @@ def BFSShortestPath(adjacencyList, startingNode, destinationNode):
 
 def GetShortestPath(graph, startingNode, destinationNode):
     """
-    Obtengo todos los caminos más cortos posibles
+    Obtengo el primer camino más cortos posible
 
     :param graph: graph
     :param startingNode: string
