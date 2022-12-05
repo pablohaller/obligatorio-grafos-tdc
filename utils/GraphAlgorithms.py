@@ -1,6 +1,8 @@
 import queue
+from collections import defaultdict
 from classes import Path
 import sys
+
 
 def NodeInGraph(graph, node):
     return any(path.source == node or path.target == node for path in graph.path)
@@ -109,6 +111,25 @@ def GetConnectedComponents(graph):
     return connectedComponents
 
 
+def GetIsConnected(graph):
+    """
+     Dado un grafo, se devuelve True si el grafo es conexo.
+
+     :param graph: graph
+     :return: boolean
+     """
+    return False if len(GetConnectedComponents(graph)) > 1 else True
+
+
+def GetConnectedComponentsAmount(graph):
+    """
+     Dado un grafo, retorna la cantidad de componentes conexas que lo componen
+
+     :param graph: graph
+     :return: boolean
+     """
+    return len(GetConnectedComponents(graph))
+
 def GetNodeAdjacencies(graph, node):
     """
         Devuelve las adyacencias de un nodo en un grafo.
@@ -138,46 +159,14 @@ def asInt(number):
         return sys.maxint, number
 
 
-def FindPaths(finalPaths, newPath, sortedPaths, startingNode, destinationNode) -> None:
-    # Base Case
-    if destinationNode == "0":
-        finalPaths.append(newPath.copy())
-        return
-
-    # Loop for all the parents
-    # of the given vertex
-    for path in sortedPaths[destinationNode]:
-        # Insert the current
-        # vertex in path
-        newPath.append(destinationNode)
-
-        # Recursive call for its parent
-        FindPaths(finalPaths, newPath, sortedPaths, startingNode, path)
-
-        # Remove the current vertex
-        newPath.pop()
-
-
-def GetAllShortestPaths(graph, startingNode, destinationNode):
+def GetOrderedAdjacenciesList(graph):
     """
-    Obtengo todos los caminos más cortos posibles
+    Obtengo una lista de adyacencias
 
     :param graph: graph
-    :param startingNode: string
-    :param destinationNode: string
-    :return: list
-
-    https://www.baeldung.com/cs/graph-number-of-shortest-paths
-    https://www.geeksforgeeks.org/print-all-shortest-paths-between-given-source-and-destination-in-an-undirected-graph/
+    :return: dictionary
     """
-
-    if not NodeInGraph(graph, startingNode) or not NodeInGraph(graph, destinationNode):
-        return []
-
-    placeholder = []
     adjacencyList = {}
-
-    print(graph.name)
     for path in graph.path:
         if path.target not in adjacencyList:
             adjacencyList[path.target] = GetNodeAdjacencies(graph, path.target)
@@ -186,43 +175,113 @@ def GetAllShortestPaths(graph, startingNode, destinationNode):
             adjacencyList[path.source] = GetNodeAdjacencies(graph, path.source)
 
     # Hago esto por las dudas porque no vienen en orden
-    distance = {}
+    return {k: adjacencyList[k] for k in sorted(adjacencyList, key=asInt)}
+
+
+def BFSShortestPath(adjacencyList, startingNode, destinationNode):
+    """
+        Variante de BFS para obtener listas el amino más corto.
+
+        :param adjacencyList: list
+        :param startingNode: string
+        :param destinationNode: string
+        :return: list
+
+        https://www.baeldung.com/cs/graph-number-of-shortest-paths
+        https://www.geeksforgeeks.org/print-all-shortest-paths-between-given-source-and-destination-in-an-undirected-graph/
+    """
+
+    distances = defaultdict(lambda: float('inf'))
     paths = {}
-    visited = {}
+    visitingQueue = queue.Queue()
 
     for source in adjacencyList.keys():
-        distance[source] = 99
         paths[source] = []
-        visited[source] = False
 
-    distance[startingNode] = 0
+    distances[startingNode] = 0
+    paths = defaultdict(list)
+    paths[startingNode] = [startingNode]
 
-    # BFS
-    visitingQueue = queue.Queue()
     visitingQueue.put(startingNode)
 
     while visitingQueue.qsize() != 0:
         currentSource = visitingQueue.get()
-        for adjacent in adjacencyList[currentSource]:
+        if currentSource == destinationNode:
+            break
 
-            if distance[adjacent] > distance[currentSource] + 1:
-                distance[adjacent] = distance[currentSource] + 1
-                visitingQueue.put(adjacent)
-                paths[adjacent].clear()
-                paths[adjacent].append(currentSource)
+        for target in adjacencyList[currentSource]:
+            if distances[target] == float('inf'):
+                distances[target] = distances[currentSource] + 1
+                paths[target] = paths[currentSource] + [target]
+                visitingQueue.put(target)
 
-            elif distance[adjacent] == distance[currentSource] + 1:
-                paths[adjacent].append(currentSource)
+    return paths[destinationNode]
 
-    sortedPaths = {k: paths[k] for k in sorted(paths, key=asInt)}
 
-    newPath = []
-    finalPaths = []
-    FindPaths(finalPaths, newPath,  sortedPaths, len(adjacencyList.keys()), destinationNode)
+def GetShortestPath(graph, startingNode, destinationNode):
+    """
+    Obtengo todos los caminos más cortos posibles
 
-    for path in finalPaths:
-        for node in reversed(path):
-            print(node, end=" ")
-        print()
+    :param graph: graph
+    :param startingNode: string
+    :param destinationNode: string
+    :return: list
+    """
 
-    return placeholder
+    return [] if not NodeInGraph(graph, startingNode) or not NodeInGraph(graph, destinationNode) \
+        else BFSShortestPath(GetOrderedAdjacenciesList(graph), startingNode, destinationNode)
+
+
+def GetShortestPathLength(graph, startingNode, destinationNode):
+    """
+    Retorno el largo del camino más corto entre dos nodos
+
+    :param graph: graph
+    :param startingNode: string
+    :param destinationNode: string
+    :return: number
+    """
+
+    return len(GetShortestPath(graph, startingNode, destinationNode))
+
+
+def CompareShortestPaths(graph, path):
+    """
+        Retorna si el camino indicado es el más corto
+
+        :param graph: graph
+        :param path: list
+        :return: boolean
+    """
+
+    if len(path) < 2:
+        return False
+
+    startingNode = path[0]
+    destinationNode = path[-1]
+
+    if not NodeInGraph(graph, startingNode) or not NodeInGraph(graph, destinationNode):
+        return False
+
+    adjacencyList = GetOrderedAdjacenciesList(graph)
+    shortestPathLength = GetShortestPathLength(graph, startingNode, destinationNode)
+    maxIndex = len(path)
+    pathLength = 1
+    nodeNotAdjacent = False
+
+    for x in range(0, maxIndex):
+        if nodeNotAdjacent:
+            break
+
+        node = path[x]
+        nextNode = path[x+1] if x != maxIndex-1 else -1
+
+        if nextNode in adjacencyList[node] and nextNode != -1:
+            pathLength = pathLength + 1
+        elif nextNode != -1:
+            nodeNotAdjacent = True
+
+    return False if nodeNotAdjacent else pathLength == shortestPathLength
+
+
+
