@@ -27,11 +27,11 @@ $ py main.py
 - [x] 3.1. DFS
 - [x] 3.2. BFS
 - [x] 3.3. Componentes Conexas
-- [ ] 3.4. Cantidad de Componentes Conexas
-- [ ] 3.5. Es Conexo
-- [ ] 3.6. Camino más corto entre dos nodos
-- [ ] 3.7. Largo del camino más corto
-- [ ] 3.8. Verificar si un camino es el más corto
+- [x] 3.4. Cantidad de Componentes Conexas
+- [x] 3.5. Es Conexo
+- [x] 3.6. Camino más corto entre dos nodos
+- [x] 3.7. Largo del camino más corto
+- [x] 3.8. Verificar si un camino es el más corto
 
 
 ### 3.1. DFS
