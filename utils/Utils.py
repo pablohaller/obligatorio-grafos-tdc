@@ -20,7 +20,7 @@ def GetGraphs():
         for key, value in graphDictionary["graphml"]["graph"].items():
             if key == "edge":
                 for edge in value:
-                    graphPath.append(Path.Path(edge["@source"], edge["@target"], edge["@weight"]))
+                    graphPath.append(Path.Path(edge["@source"], edge["@target"]))
 
         graphList.append(Graph.Graph(graphFile, graphPath))
         file.close()

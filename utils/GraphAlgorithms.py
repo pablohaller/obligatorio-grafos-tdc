@@ -36,7 +36,7 @@ def BreadthFirstSearch(graph, startingNode):
             # Esto lo hago porque el graphml lo toma como dirigido siempre (tiene source y target)
             # Hago un swap auxiliar de source y target para que no piense que no hay conexión.
             # Ej.: si empiezo desde 0, y hay un camino 4 -> 0, que no lo pase de largo y lo ponga en la lista igual.
-            auxPath = Path.Path(path.target, path.source, path.weight) if path.target == currentSource else path
+            auxPath = Path.Path(path.target, path.source) if path.target == currentSource else path
 
             if (auxPath.source == currentSource) \
                     and auxPath.target not in visitingQueue.queue \
@@ -77,7 +77,7 @@ def DepthFirstSearch(graph, startingNode):
             if stopSearching:
                 break
 
-            auxPath = Path.Path(path.target, path.source, path.weight) if path.target == currentSource else path
+            auxPath = Path.Path(path.target, path.source) if path.target == currentSource else path
 
             if auxPath.source == currentSource and auxPath.target not in dfsPath:
                 stack.append(currentSource)
@@ -141,7 +141,7 @@ def GetNodeAdjacencies(graph, node):
 
     adjacencies = []
     for path in graph.path:
-        auxPath = Path.Path(path.target, path.source, path.weight) if path.target == node else path
+        auxPath = Path.Path(path.target, path.source) if path.target == node else path
 
         if auxPath.target == node and auxPath.target not in adjacencies:
             adjacencies.append(auxPath.source)
